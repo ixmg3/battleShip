@@ -46,10 +46,17 @@ void ship::setUserShips(){ // 4 одинарных, 3 двойних, 2 трой
         if(start[0] == end[0]){ // добавить возможность изменить положение кораблей до битвы, добавить проверки.
             shipLength = end[1] - start[1];
             if(ships[shipLength] > 0){
-                for(int i = start[1]; i <= end[1]; i++){
-                    playerUI[start[0]][i] = '*';
-                } 
-                ships[shipLength]--;
+                if(shipLength > 0) {
+                    for(int i = start[1]; i <= end[1]; i++){
+                        playerUI[start[0]][i] = '*';
+                    } 
+                    ships[shipLength]--;
+                } else if(shipLength < 0) {
+                    for(int i = start[1]; i >= end[1]; i--){  
+                        playerUI[start[0]][i] = '*';
+                    }
+                    ships[abs(shipLength)]--;
+                }
             } else{
                 cout << "Maximum amount of this type of ships reached." endl;
             }
@@ -58,10 +65,17 @@ void ship::setUserShips(){ // 4 одинарных, 3 двойних, 2 трой
         else if(start[1] == end[1]){
             shipLength = end[0] - start[0];
             if(ships[shipLength] > 0){
-                for(int i = start[0]; i <= end[0]; i++){
-                    playerUI[i][start[1]] = '*';
+                if(shipLength > 0) {
+                    for(int i = start[0]; i <= end[0]; i++){
+                        playerUI[i][start[1]] = '*';
+                    }
+                    ships[shipLength]--;
+                } else if(shipLength < 0) {
+                    for(int i = start[0]; i >= end[0]; i--){
+                        playerUI[i][start[1]] = '*';
+                    }
+                    ships[shipLength]--;
                 }
-                ships[shipLength]--;
             } else{
                 cout << "Maximum amount of this type of ships reached." endl;
             }
