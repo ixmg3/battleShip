@@ -9,6 +9,8 @@ class ship{
     int ships[4] = {4, 3, 2, 1};
     bool askCoordinates();
     void generateFields();
+    void createShip();
+    void deleteShip();
     void printUI();
     void setUserShips();
     void askMove();
