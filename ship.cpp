@@ -24,31 +24,43 @@ void ship::printUI(){
     }
 }
 
-void ship::setUserShips(){ // 4 одинарных, 3 двойних, 2 тройных, 1 четверной
-    int start[2], end[2], ships[4] = {4, 3, 2, 1}, shipLength; // 0 - одинарн., 1 - двойн., 2 - тройн., 3 - четверн.
-    char confirmation;
-    while(ships[0] != 0 || ships[1] != 0 || ships[2] != 0 || ships[3] != 0){
-        bool isOpen = true;
-        printUI();
-        cout << "Enter your coordinates for the beginning of the ship: " endl;
-        cin >> start[0] >> start[1];
-        cout << "Enter your coordinates for the ending of the ship: " endl;
-        cin >> end[0] >> end[1];
-        for(int i = -1; i <= 1; i++){
-            for(int j = -1; j <= 1; j++){
-                if(playerUI[start[0] + i][start[1] + j] == '*' || playerUI[end[0] + i][end[1] + j] == '*'){
-                    isOpen = false;
-                }
+bool ship::askCoordinates() {
+    cout << "Enter your coordinates for the beginning of the ship: " endl;
+    cin >> start[0] >> start[1];
+    cout << "Enter your coordinates for the ending of the ship: " endl;
+    cin >> end[0] >> end[1];
+
+    if(end[1] - start[1] > 3 || end[0] - start[0] > 3){
+        cout << "Incorrect size, should be less than 5." endl;
+        return false;
+    }
+
+    for(int i = -1; i <= 1; i++){
+        for(int j = -1; j <= 1; j++){
+            if(playerUI[start[0] + i][start[1] + j] == '*' || playerUI[end[0] + i][end[1] + j] == '*'){
+                cout << "Incorrect coordinates, ships can't be next to each other." endl;
+                return false;
             }
         }
-        if(!isOpen){
-            cout << "Incorrect coordinates, ships can't be next to each other." endl;
+    }
+
+    if(start[0] != end[0] && start[1] != end[1]) {
+        cout << "Incorect coordinates. Ship shouldn't be diagonal" endl;
+        return false;
+    }
+    
+    return true;
+}
+
+void ship::setUserShips(){ // 4 одинарных, 3 двойних, 2 тройных, 1 четверной
+    int shipLength; // 0 - одинарн., 1 - двойн., 2 - тройн., 3 - четверн.
+    char confirmation;
+    while(ships[0] != 0 || ships[1] != 0 || ships[2] != 0 || ships[3] != 0){
+        printUI();
+        if(!askCoordinates()) {
             continue;
         }
-        if(end[1] - start[1] > 3 || end[0] - start[0] > 3){
-            cout << "Incorrect size, should be less than 5." endl;
-            continue;
-        }
+
         if(start[0] == end[0]){ // добавить возможность изменить положение кораблей до битвы, почему то ставятся рядом, но не ставятся вдали друг от друга. 
             shipLength = end[1] - start[1];
             if(ships[shipLength] > 0){
@@ -85,10 +97,9 @@ void ship::setUserShips(){ // 4 одинарных, 3 двойних, 2 трой
             } else{
                 cout << "Maximum amount of this type of ships reached." endl;
             }
-        } else{
-            cout << "incorect coordinates. Ship shouldn't be diagonal" endl;
         }
     }
+
     printUI();
     cout << "This is your final board, are you sure? (Y/N)" endl;
     cin >> confirmation;
