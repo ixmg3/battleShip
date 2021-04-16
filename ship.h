@@ -6,12 +6,13 @@
 using namespace std;
 class ship{
     char playerUI[12][13];
-    char botUI[12][13]; 
+    char botUI[12][13];
+    char shipBotUI[12][13]; 
     int start[2], end[2];
     int ships[4] = {4, 3, 2, 1};
     int botShips[4] = {4, 3, 2, 1};
     string shipDirection = "horizontal";
-    int shipLength;
+    int shipLength, userHitCounter = 0, botHitCounter = 0;
 
     void setShipDirection();
     bool askCoordinates(char choice);
@@ -23,8 +24,8 @@ class ship{
     void deleteShip();
     void printUI();
     void setUserShips();
-    void askMove();
-    void makeMove();
+    void userMove();
+    void botMove();
     bool fieldStatusCheck();
     public:
     ship();
