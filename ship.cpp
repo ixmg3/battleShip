@@ -1,7 +1,58 @@
 #include "ship.h"
 #define endl << endl
 
+void ship::assignBotCoords(int displace0, int displace1){
+    start[0] = rand()%10 + 1;
+    start[1] = rand()%10 + 1;
+    end[0] = start[0] + displace0;
+    end[1] = start[1] + displace1;
+}
 
+void ship::setBotShips(int shipAmount){
+    int displaceCalc = 4 - shipAmount;
+    for(int i = 0; i < shipAmount; i++){
+        direction = rand()%4 + 1;
+        switch(direction){
+            case 1: // up
+                shipDirection = "vertical";
+                assignBotCoords(-1 * displaceCalc, 0);
+                if(botShipCoordsChecker()){
+                    i--;
+                } else{
+                    createBotShip();
+                } 
+                
+                break;
+            case 2: // down
+                shipDirection = "vertical";
+                assignBotCoords(displaceCalc, 0);
+                if(botShipCoordsChecker()){
+                    i--;
+                } else{
+                    createBotShip();
+                }
+                break;
+            case 3: // left
+                shipDirection = "horizontal";
+                assignBotCoords(0, -1 * displaceCalc);
+                if(botShipCoordsChecker()){
+                    i--; 
+                } else{
+                    createBotShip();
+                }
+                break;
+            case 4: // right
+                shipDirection = "horizontal";
+                assignBotCoords(0, displaceCalc);
+                if(botShipCoordsChecker()){
+                    i--;
+                } else{
+                    createBotShip();
+                }
+                break;
+        }
+    }
+}
 
 void ship::generateFields(){ // добавить цифры у сторон поля
     for(int i = 0; i < 12; i++){
@@ -35,8 +86,9 @@ void ship::printUI(){
             cout << " ";
         }
         cout << botUI[i];
-        cout << shipBotUI[i] endl;
-        // cout << i << playerUI[i] << "\t \t" << i << botUI[i] endl;
+        // cout << shipBotUI[i];
+        // разкоментировать это ^ для того чтобы видеть поле бота
+        cout endl;
     }
 }
 
@@ -116,189 +168,14 @@ bool ship::botShipCoordsChecker(){
 }
 
 void ship::generateBotCoords(){ // ограничение во время генераци карты бота (потом)
-    int direction, shipType;
-    for(int i = 0; i < 4; i++){
-        start[0] = rand()%10 + 1;
-        start[1] = rand()%10 + 1;
-        end[0] = start[0];
-        end[1] = start[1];
-        if(botShipCoordsChecker()){
-            i--;
-        } else{
-            createBotShip();
-        }
+    for(int i = 4; i > 0; i--){
+        setBotShips(i);
     }
-    
-    for(int i = 0; i < 3; i++){
-        direction = rand()%4 + 1;
-        switch(direction){
-            case 1: // up
-                shipDirection = "vertical";
-                start[0] = rand()%10 + 1;
-                start[1] = rand()%10 + 1;
-                end[0] = start[0] - 1;
-                end[1] = start[1];
-                if(botShipCoordsChecker()){
-                    i--;
-                } else{
-                    createBotShip();
-                } 
-                
-                break;
-            case 2: // down
-                shipDirection = "vertical";
-                start[0] = rand()%10 + 1;
-                start[1] = rand()%10 + 1;
-                end[0] = start[0] + 1;
-                end[1] = start[1];
-                if(botShipCoordsChecker()){
-                    i--;
-                } else{
-                    createBotShip();
-                }
-                break;
-            case 3: // left
-                shipDirection = "horizontal";
-                start[0] = rand()%10 + 1;
-                start[1] = rand()%10 + 1;
-                end[0] = start[0];
-                end[1] = start[1] - 1;
-                if(botShipCoordsChecker()){
-                    i--; 
-                } else{
-                    createBotShip();
-                }
-                break;
-            case 4: // right
-                shipDirection = "horizontal";
-                start[0] = rand()%10 + 1;
-                start[1] = rand()%10 + 1;
-                end[0] = start[0];
-                end[1] = start[1] + 1;
-                if(botShipCoordsChecker()){
-                    i--;
-                } else{
-                    createBotShip();
-                }
-                break;
-        }
-    }
-    
-    for(int i = 0; i < 2; i++){
-        direction = rand()%4 + 1;
-        switch(direction){
-            case 1: // up
-                shipDirection = "vertical";
-                start[0] = rand()%10 + 1;
-                start[1] = rand()%10 + 1;
-                end[0] = start[0] - 2;
-                end[1] = start[1];
-                if(botShipCoordsChecker()){
-                    i--;
-                } else{
-                    createBotShip();
-                }
-                break;
-            case 2: // down
-                shipDirection = "vertical";
-                start[0] = rand()%10 + 1;
-                start[1] = rand()%10 + 1;
-                end[0] = start[0] + 2;
-                end[1] = start[1];
-                if(botShipCoordsChecker()){
-                    i--;
-                } else{
-                    createBotShip();
-                }
-                break;
-            case 3: // left
-                shipDirection = "horizontal";
-                start[0] = rand()%10 + 1;
-                start[1] = rand()%10 + 1;
-                end[0] = start[0];
-                end[1] = start[1] - 2;
-                if(botShipCoordsChecker()){
-                    i--;
-                } else{
-                    createBotShip();
-                }
-                break;
-            case 4: // right
-                shipDirection = "horizontal";
-                start[0] = rand()%10 + 1;
-                start[1] = rand()%10 + 1;
-                end[0] = start[0];
-                end[1] = start[1] + 2;
-                if(botShipCoordsChecker()){
-                    i--;
-                } else{
-                    createBotShip();
-                }
-                break;
-        }
-    }
-    
-    direction = rand()%4 + 1;
-    for(int i = 0; i < 1; i++){
-    switch(direction){
-        case 1: // up
-            shipDirection = "vertical";
-            start[0] = rand()%10 + 1;
-            start[1] = rand()%10 + 1;
-            end[0] = start[0] - 3;
-            end[1] = start[1];
-            if(botShipCoordsChecker()){
-                i--; 
-            } else{
-                createBotShip();
-            }
-            break;
-        case 2: // down
-            shipDirection = "vertical";
-            start[0] = rand()%10 + 1;
-            start[1] = rand()%10 + 1;
-            end[0] = start[0] + 3;
-            end[1] = start[1];
-            if(botShipCoordsChecker()){
-                i--;
-            } else{
-                createBotShip();
-            }
-            break;
-        case 3: // left
-            shipDirection = "horizontal";
-            start[0] = rand()%10 + 1;
-            start[1] = rand()%10 + 1;
-            end[0] = start[0];
-            end[1] = start[1] - 3;
-            if(botShipCoordsChecker()){
-                i--; 
-            } else{
-                createBotShip();
-            }
-            break;
-        case 4: // right
-            shipDirection = "horizontal";
-            start[0] = rand()%10 + 1;
-            start[1] = rand()%10 + 1;
-            end[0] = start[0];
-            end[1] = start[1] + 3;
-            if(botShipCoordsChecker()){
-                i--;
-            } else{
-                createBotShip();
-            }
-            break;
-    }
-
-    }
-    
-    
 }
+
 void ship::createBotShip(){
     if(shipDirection == "horizontal"){ 
         shipLength = end[1] - start[1];
-        cout << shipLength endl;
         int shipLength2 = abs(shipLength);
         if(botShips[shipLength2] > 0){
             if(shipLength >= 0) {
@@ -319,7 +196,6 @@ void ship::createBotShip(){
     }
     else if(shipDirection == "vertical"){
         shipLength = end[0] - start[0];
-        cout << shipLength endl;
         int shipLength3 = abs(shipLength);
         if(botShips[shipLength3] > 0){
             if(shipLength >= 0) {
@@ -506,10 +382,10 @@ ship::ship(){
     printUI();    
     generateBotCoords();
     while(userHitCounter < 20 && botHitCounter < 20){
-    printUI();
-    userMove();
-    botMove();
-    printUI();
+        printUI();
+        userMove();
+        botMove();
+        printUI();
     }
     if(userHitCounter == 20){
         cout << "You Win!" endl;

@@ -12,8 +12,10 @@ class ship{
     int ships[4] = {4, 3, 2, 1};
     int botShips[4] = {4, 3, 2, 1};
     string shipDirection = "horizontal";
-    int shipLength, userHitCounter = 0, botHitCounter = 0;
+    int shipLength, userHitCounter = 0, botHitCounter = 0, direction;
 
+    void assignBotCoords(int displace0, int displace1);
+    void setBotShips(int shipAmount);
     void setShipDirection();
     bool askCoordinates(char choice);
     void generateFields();
