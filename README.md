@@ -14,5 +14,6 @@
 
 ```sh
 The game might lag when loading the enemy ships. Just re-launch the program and it will fix it usually.
+Compile the program with "g++ ship.cpp play.cpp" and run with "./a.exe" (or double click on a file)
 ```
 
